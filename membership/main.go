@@ -1,0 +1,72 @@
+package main
+
+import (
+	"encoding/json"
+	"fmt"
+	"log"
+	"net/http"
+	"os"
+	"time"
+)
+
+// var accountURL = "http://localhost:8080"
+var accountURL = "/account"
+
+type MembershipResponse struct {
+	Name   string `json:"name"`
+	Status string `json:"status"`
+}
+
+type Account struct {
+	Name string `json:"name"`
+}
+
+type Error struct {
+	Error string `json:"error"`
+}
+
+func main() {
+	http.HandleFunc("/membership", handler)
+
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "8081"
+	}
+
+	log.Printf("Listening on localhost:%s", port)
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%s", port), nil))
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+
+	var client = &http.Client{Timeout: 10 * time.Second}
+	req, err := http.NewRequest("GET", accountURL, nil)
+	if err != nil {
+		json.NewEncoder(w).Encode(Error{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	resp, err := client.Do(req)
+	fmt.Println(resp)
+	if err != nil {
+		json.NewEncoder(w).Encode(Error{
+			Error: err.Error(),
+		})
+		return
+	}
+
+	var account Account
+
+	defer resp.Body.Close()
+	json.NewDecoder(resp.Body).Decode(&account)
+
+	mem := MembershipResponse{
+		Name:   account.Name,
+		Status: "PREMIUM",
+	}
+
+	json.NewEncoder(w).Encode(mem)
+}
