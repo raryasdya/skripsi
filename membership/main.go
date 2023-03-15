@@ -9,8 +9,7 @@ import (
 	"time"
 )
 
-// var accountURL = "http://localhost:8080"
-var accountURL = "/account"
+const accountURL = "http://account-service:8081/account"
 
 type MembershipResponse struct {
 	Name   string `json:"name"`
@@ -26,11 +25,11 @@ type Error struct {
 }
 
 func main() {
-	http.HandleFunc("/membership", handler)
+	http.HandleFunc("/", handler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8081"
+		port = "8080"
 	}
 
 	log.Printf("Listening on localhost:%s", port)

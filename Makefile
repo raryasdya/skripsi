@@ -1,14 +1,13 @@
-hello:
-	echo "Hello"
+build-account:
+	go build -o ./bin/account ./account/main.go
 
-run-account:
-	go run ./account/main.go
+build-membership:
+	go build -o ./bin/membership ./membership/main.go
 
-run-membership:
-	go run ./membership/main.go
+build-all:
+	docker-compose build
 
-run: run-account run-membership
+up-all:
+	docker-compose up -d
 
-run-2:
-	go run ./account/main.go \
-	&& go run ./membership/main.go
+all: build-all up-all

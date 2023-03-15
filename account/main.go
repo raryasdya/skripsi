@@ -13,11 +13,11 @@ type AccountResponse struct {
 }
 
 func main() {
-	http.HandleFunc("/account", handler)
+	http.HandleFunc("/", handler)
 
 	port := os.Getenv("PORT")
 	if port == "" {
-		port = "8080"
+		port = "8081"
 	}
 
 	log.Printf("Listening on localhost:%s", port)
