@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: membership
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: membership
+  template:
+    metadata:
+      labels:
+        app: membership
+    spec:
+      containers:
+      - name: membership-app
+        image: asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-repo/membership:latest
+        ports:
+        - containerPort: 8080
+        env:
+          - name: PORT
+            value: "8080"
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: membership-service
+spec:
+  selector:
+    app: membership
+  ports:
+  - port: 8080
+    targetPort: 8080
