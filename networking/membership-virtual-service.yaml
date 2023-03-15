@@ -10,7 +10,7 @@ spec:
   http:
   - match:
     - uri:
-        exact: /membership
+        exact: /
     route:
     - destination:
         host: membership-service
