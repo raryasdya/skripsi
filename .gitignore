@@ -160,3 +160,5 @@ fabric.properties
 
 # Binary directories
 bin/
+
+.env

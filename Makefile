@@ -1,3 +1,6 @@
+include .env
+
+
 # Services
 build-account:
 	go build -o ./bin/account ./account/main.go
@@ -17,11 +20,11 @@ all: build-all up-all
 # Artifact Registry
 submit-account:
 	gcloud builds submit \
-	--tag asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-repo/account ./account
+	--tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/account ./account
 
 submit-membership:
 	gcloud builds submit \
-  --tag asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-repo/membership ./membership
+  --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/membership ./membership
 
 submit-all: submit-account submit-membership
 
