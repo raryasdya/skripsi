@@ -25,42 +25,46 @@ submit-membership:
 
 submit-all: submit-account submit-membership
 
+
 # Istio
 deploy-membership:
-	kubectl apply -f ./networking/membership.yaml
+	kubectl apply -f ./config/kubernetes/membership.yaml
 deploy-account:
-	kubectl apply -f ./networking/account.yaml
+	kubectl apply -f ./config/kubernetes/account.yaml
 deploy-gateway:
-	kubectl apply -f ./networking/gateway.yaml
+	kubectl apply -f ./config/istio/gateway.yaml
 deploy-membership-vs:
-	kubectl apply -f ./networking/membership-virtual-service.yaml
+	kubectl apply -f ./config/istio/membership-virtual-service.yaml
 deploy-account-vs:
-	kubectl apply -f ./networking/account-virtual-service.yaml
+	kubectl apply -f ./config/istio/account-virtual-service.yaml
 	
 deploy-all: deploy-membership deploy-account deploy-gateway deploy-membership-vs deploy-account-vs
 
 
 delete-membership:
-	kubectl delete -f ./networking/membership.yaml
+	kubectl delete -f ./config/kubernetes/membership.yaml
 delete-account:
-	kubectl delete -f ./networking/account.yaml
+	kubectl delete -f ./config/kubernetes/account.yaml
 delete-gateway:
-	kubectl delete -f ./networking/membership-gateway.yaml
+	kubectl delete -f ./config/istio/membership-gateway.yaml
 delete-membership-vs:
-	kubectl delete -f ./networking/membership-virtual-service.yaml
+	kubectl delete -f ./config/istio/membership-virtual-service.yaml
 delete-account-vs:
-	kubectl delete -f ./networking/account-virtual-service.yaml
+	kubectl delete -f ./config/istio/account-virtual-service.yaml
 
 delete-all: delete-membership delete-account delete-gateway delete-membership-vs delete-account-vs
 
+
 set-mtls:
-	kubectl apply -f ./networking/mtls.yaml
+	kubectl apply -f ./config/istio/mtls.yaml
+
 
 set-cert-issuer:
-	kubectl apply -f ./networking/cert/cert-issuer.yaml
+	kubectl apply -f ./config/cert/cert-issuer.yaml
 set-certificate:
-	kubectl apply -f ./networking/cert/certificate.yaml
+	kubectl apply -f ./config/cert/certificate.yaml
 set-cert: set-cert-issuer set-certificate
+
 
 get-ip:
 	kubectl get svc istio-ingressgateway -n istio-system
