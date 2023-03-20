@@ -68,3 +68,7 @@ set-cert: set-cert-issuer set-certificate
 
 get-ip:
 	kubectl get svc istio-ingressgateway -n istio-system
+
+
+run-kiali:
+	kubectl port-forward svc/kiali -n istio-system 20001
