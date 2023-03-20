@@ -53,6 +53,14 @@ delete-account-vs:
 
 delete-all: delete-membership delete-account delete-gateway delete-membership-vs delete-account-vs
 
+set-mtls:
+	kubectl apply -f ./networking/mtls.yaml
+
+set-cert-issuer:
+	kubectl apply -f ./networking/cert/cert-issuer.yaml
+set-certificate:
+	kubectl apply -f ./networking/cert/certificate.yaml
+set-cert: set-cert-issuer set-certificate
 
 get-ip:
 	kubectl get svc istio-ingressgateway -n istio-system

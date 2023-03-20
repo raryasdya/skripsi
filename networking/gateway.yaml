@@ -11,4 +11,14 @@ spec:
       name: http
       protocol: HTTP
     hosts:
-    - "*"
+    # - "*"
+      - "skripsi.lakik.software"
+  - port:
+      number: 443
+      name: https
+      protocol: HTTPS
+    tls:
+      mode: SIMPLE
+      credentialName: skripsi-domain-cert
+    hosts:
+    - "skripsi.lakik.software"
