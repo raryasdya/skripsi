@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: membership-app
-        image: ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/membership:latest
+        image: asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-code/membership:latest
         ports:
         - containerPort: 8080
         env:
