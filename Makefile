@@ -75,3 +75,14 @@ get-ip:
 
 run-kiali:
 	kubectl port-forward svc/kiali -n istio-system 20001
+
+
+cleanup-cluster:
+	gcloud container clusters delete ${CLUSTER_NAME} \
+	    --region ${ZONE}
+
+cleanup-repo:
+	gcloud artifacts docker images delete \
+		${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/account
+	gcloud artifacts docker images delete \
+		${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/membership
