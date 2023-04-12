@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: account-app
-        image: asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-code/account:latest
+        image: asia-southeast1-docker.pkg.dev/skripsi-exploration/skripsi-repo/account:latest
         ports:
         - containerPort: 8081
         env:
