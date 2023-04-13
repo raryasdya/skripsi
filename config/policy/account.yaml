@@ -1,0 +1,26 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: account-service-policy
+spec:
+  validationFailureAction: Enforce
+  background: true
+  rules:
+    - name: disallow-wildcard-host
+      match:
+        all:
+          - resources:
+              kinds:
+                - VirtualService
+              names:
+                - account-route
+      validate:
+        message: 'hosts must only membership-service'
+        foreach:
+          - list: 'request.object.spec.hosts'
+            deny:
+              conditions:
+                any:
+                  - key: '{{ element }}'
+                    operator: NotEquals
+                    value: 'membership-service'
