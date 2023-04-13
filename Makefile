@@ -101,9 +101,7 @@ run-kiali:
 	kubectl port-forward svc/kiali -n istio-system 20001
 
 
-# Kyverno Installation
-install-kyverno-manifest:
-	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml
+# Setup Helm
 install-helm:
 	curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null \
 	&& sudo apt-get install apt-transport-https --yes \
@@ -114,12 +112,20 @@ helm-add-kyverno:
 	helm repo add kyverno https://kyverno.github.io/kyverno/
 update-helm: 
 	helm repo update
+
+setup-helm: install-helm helm-add-kyverno update-helm
+
+
+# Kyverno Installation
 install-kyverno:
 	helm install kyverno kyverno/kyverno -n kyverno --create-namespace --set replicaCount=1
 install-kyverno-policies:
 	helm install kyverno-policies kyverno/kyverno-policies -n kyverno
 
-kyverno-all: install-helm helm-add-kyverno update-helm install-kyverno install-kyverno-policies
+kyverno-all: install-kyverno install-kyverno-policies
+# Alternatives
+install-kyverno-manifest:
+	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml
 
 
 # Cleanup
