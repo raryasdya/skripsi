@@ -137,6 +137,7 @@ install-kyverno-manifest:
 apply-policies:
 	kubectl apply -f config/policy/account.yaml
 
+
 # Setup Rogue Service
 submit-rogue:
 	gcloud builds submit \
@@ -147,6 +148,18 @@ deploy-rogue-vs:
 	kubectl apply -f ./config/istio/rogue-virtual-service.yaml
 
 setup-rogue: submit-rogue deploy-rogue deploy-rogue-vs
+
+# Delete Rogue Service
+delete-rogue:
+	kubectl delete -f ./config/kubernetes/rogue.yaml
+delete-rogue-vs:
+	kubectl delete -f ./config/istio/rogue-virtual-service.yaml
+delete-rogue-repo:
+	gcloud artifacts docker images delete \
+		${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/rogue
+	
+cleanup-rogue: delete-rogue delete-rogue-vs delete-rogue-repo
+
 
 # Cleanup
 cleanup-cluster:
