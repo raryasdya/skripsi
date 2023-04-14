@@ -4,7 +4,6 @@ metadata:
   name: membership-route
 spec:
   hosts:
-  # - "*"
   - "skripsi.lakik.software"
   gateways:
   - gateway
