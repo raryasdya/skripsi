@@ -137,6 +137,16 @@ install-kyverno-manifest:
 apply-policies:
 	kubectl apply -f config/policy/account.yaml
 
+# Setup Rogue Service
+submit-rogue:
+	gcloud builds submit \
+  --tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/rogue ./rogue
+deploy-rogue:
+	kubectl apply -f ./config/kubernetes/rogue.yaml
+deploy-rogue-vs:
+	kubectl apply -f ./config/istio/rogue-virtual-service.yaml
+
+setup-rogue: submit-rogue deploy-rogue deploy-rogue-vs
 
 # Cleanup
 cleanup-cluster:
