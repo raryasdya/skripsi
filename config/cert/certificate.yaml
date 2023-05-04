@@ -5,7 +5,7 @@ metadata:
   namespace: istio-system
 spec:
   secretName: skripsi-domain-cert
-  duration: 2160h # 90d
+  duration: 8760h # 365d
   renewBefore: 360h # 15d
   isCA: false
   privateKey:

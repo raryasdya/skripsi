@@ -9,7 +9,9 @@ import (
 )
 
 type AccountResponse struct {
-	Name string `json:"name"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Source string `json:"source"`
 }
 
 func main() {
@@ -28,7 +30,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 
 	acc := AccountResponse{
-		Name: "Raryasdya",
+		Name:   "Raryasdya",
+		Status: "PREMIUM",
+		Source: "account-service",
 	}
 
 	json.NewEncoder(w).Encode(acc)
