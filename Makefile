@@ -4,13 +4,10 @@ include .env
 # Services
 build-account:
 	go build -o ./bin/account ./account/main.go
-
 build-membership:
 	go build -o ./bin/membership ./membership/main.go
-
 build-all:
 	docker-compose build
-
 up-all:
 	docker-compose up -d
 
@@ -28,6 +25,11 @@ cluster-all: enable-container create-cluster
 
 
 # Artifact Registry
+create-artifact:
+	gcloud artifacts repositories create ${REPO_NAME} --project=${PROJECT_ID} \
+	--repository-format=docker --location=${REGION} --description="Skripsi Image Repository"
+
+
 submit-account:
 	gcloud builds submit \
 	--tag ${REGION}-docker.pkg.dev/${PROJECT_ID}/${REPO_NAME}/account ./account
@@ -47,6 +49,7 @@ enable-injection:
 	kubectl label namespace default istio-injection=enabled
 
 install-istio: get-creds install-istio-demo enable-injection
+
 
 # Istio
 deploy-membership:
@@ -97,45 +100,11 @@ get-ip:
 	kubectl get svc istio-ingressgateway -n istio-system
 
 
+install-kiali:
+	kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/kiali.yaml
+	kubectl apply -f https://raw.githubusercontent.com/istio/istio/release-1.17/samples/addons/prometheus.yaml
 run-kiali:
 	kubectl port-forward svc/kiali -n istio-system 20001
-
-
-# Setup Helm
-install-helm:
-	curl https://baltocdn.com/helm/signing.asc | gpg --dearmor | sudo tee /usr/share/keyrings/helm.gpg > /dev/null \
-	&& sudo apt-get install apt-transport-https --yes \
-	&& echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/helm.gpg] https://baltocdn.com/helm/stable/debian/ all main" | sudo tee /etc/apt/sources.list.d/helm-stable-debian.list \
-	&& sudo apt-get update \
-	&& sudo apt-get install helm
-helm-add-kyverno:
-	helm repo add kyverno https://kyverno.github.io/kyverno/
-update-helm: 
-	helm repo update
-
-setup-helm: install-helm helm-add-kyverno update-helm
-
-
-# Kyverno Installation
-install-kyverno:
-	helm install kyverno kyverno/kyverno -n kyverno --create-namespace --set replicaCount=1
-install-kyverno-policies:
-	helm install kyverno-policies kyverno/kyverno-policies -n kyverno
-install-kyverno-cli:
-	curl -LO https://github.com/kyverno/kyverno/releases/download/v1.7.2/kyverno-cli_v1.7.2_linux_x86_64.tar.gz \
-	&& tar -xvf kyverno-cli_v1.7.2_linux_x86_64.tar.gz \
-	&& sudo cp kyverno /usr/local/bin/ \
-	&& rm kyverno kyverno-cli_v1.7.2_linux_x86_64.tar.gz LICENSE
-
-kyverno-all: install-kyverno install-kyverno-policies install-kyverno-cli
-# Alternatives
-install-kyverno-manifest:
-	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml
-
-
-# Apply Kyverno Policies
-apply-policies:
-	kubectl apply -f config/policy/account.yaml
 
 
 # Cleanup
