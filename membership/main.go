@@ -14,10 +14,13 @@ const accountURL = "http://account-service:8081/account"
 type MembershipResponse struct {
 	Name   string `json:"name"`
 	Status string `json:"status"`
+	Source string `json:"source"`
 }
 
 type Account struct {
-	Name string `json:"name"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Source string `json:"source"`
 }
 
 type Error struct {
@@ -49,11 +52,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp, err := client.Do(req)
-	fmt.Println(resp)
 	if err != nil {
-		json.NewEncoder(w).Encode(Error{
-			Error: err.Error(),
-		})
+		mem := MembershipResponse{
+			Name:   "ERROR",
+			Status: "ERROR",
+			Source: "membership-service",
+		}
+		json.NewEncoder(w).Encode(mem)
 		return
 	}
 
@@ -64,7 +69,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	mem := MembershipResponse{
 		Name:   account.Name,
-		Status: "PREMIUM",
+		Status: account.Status,
+		Source: "membership-service",
 	}
 
 	json.NewEncoder(w).Encode(mem)
