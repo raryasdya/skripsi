@@ -8,11 +8,11 @@ spec:
   gateways:
     - gateway
   http:
-    - match:
-        - uri:
-            exact: /account
-      route:
-        - destination:
-            host: account-service
-            port:
-              number: 8081
+  - match:
+    - uri:
+        exact: /account
+    route:
+    - destination:
+        host: account-service
+        port:
+          number: 8081
