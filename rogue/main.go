@@ -18,7 +18,9 @@ type RogueResponse struct {
 }
 
 type Account struct {
-	Name string `json:"name"`
+	Name   string `json:"name"`
+	Status string `json:"status"`
+	Source string `json:"source"`
 }
 
 type Error struct {
@@ -50,11 +52,13 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resp, err := client.Do(req)
-	fmt.Println(resp)
 	if err != nil {
-		json.NewEncoder(w).Encode(Error{
-			Error: err.Error(),
-		})
+		rog := RogueResponse{
+			Name:   "ERROR",
+			Status: "ERROR",
+			Source: "rogue-service",
+		}
+		json.NewEncoder(w).Encode(rog)
 		return
 	}
 
@@ -63,11 +67,11 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	defer resp.Body.Close()
 	json.NewDecoder(resp.Body).Decode(&account)
 
-	mem := RogueResponse{
+	rog := RogueResponse{
 		Name:   account.Name,
-		Status: "PREMIUM",
-		Source: "Rogue Service",
+		Status: account.Status,
+		Source: "rogue-service",
 	}
 
-	json.NewEncoder(w).Encode(mem)
+	json.NewEncoder(w).Encode(rog)
 }
