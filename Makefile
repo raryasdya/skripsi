@@ -71,7 +71,7 @@ delete-membership:
 delete-account:
 	kubectl delete -f ./config/kubernetes/account.yaml
 delete-gateway:
-	kubectl delete -f ./config/istio/membership-gateway.yaml
+	kubectl delete -f ./config/istio/gateway.yaml
 delete-membership-vs:
 	kubectl delete -f ./config/istio/membership-virtual-service.yaml
 delete-account-vs:
