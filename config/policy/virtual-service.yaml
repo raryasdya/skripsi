@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-virtual-service
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: validate-virtual-service
+      match:
+        any:
+          - resources:
+              kinds:
+                - VirtualService
+      validate:
+        manifests:
+          attestors:
+            - count: 1
+              entries:
+                - keys:
+                    publicKeys: |-
+                      -----BEGIN PUBLIC KEY-----
+                      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEB7cHwrMLEHGmZ3uq08FMpfKty1cH
+                      cWCES/IMsWp+fc7gUtBxlADapE0vT8dTSDBeHfAfb6ooOqbx3Pbe27HMyQ==
+                      -----END PUBLIC KEY-----

@@ -1,0 +1,29 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/bundle: H4sIAAAAAAAA/0STTY+jOBCG/wvXmQPmIx1amkMnYAIdk8FgG3wzmDRgQ9P5GAij+e+r7Ky017dUpapHT/02su5jbGQw3i6PvBua600Mk/FqoCDdR2+zr8Zikej8Uu5b5sq1UzVzvKp4OAdW8Sxzlnlzo5n49ta9XV++9Y9f0+oEuXPxLuXxsJHe4fT1xbYg4gyanhLjYd0uH+mPH8Z346d46E8hjdffRvUpH8ar0Tzitg4140W8Cubdo/6zQ3tnPvZBd9zHF8Fc9cxECFcRUlUP9FLZsYq6uavtnS4f0aZ5xKoscBv100s0tG1tfXSn8dqVbBkrO55k2N6eM2qrbVFPrGevHOBVMtKdurhPQt6jVSqUp2vJaFv2xOUh75JcDsnadokVmEkOFVpTwH1lcR/2J8Z7xIhz8rFKfGSXDA5JHjgoL2fex100Au+4f94k72WBQT2QvztZ3l2G9C730SZSAFKSxNikjFAdlYTua10ueeZtMKP7dI17ZOEdt5Yv0tNR6PaUWp5qBuizQE6MwAkTeOegxeUaT2mexKfQmesCKw5gRHv4ngTAqQodVIybKOBDDeT1FGJEmfvrZxZdo3EHymGZSvOmm+xfln1luSZnrvlklkM0y2DJEUkyyvA7DfWeUE4zBXJKwEjWHWNqydEBI7LujhRSUQ/pTPukoKxFZQ/nbKC3ypYYBTyjgF7zMFrqYNIV82yiaEi0momOBQp4SNikhE4iftCEFm1ITKoklF95D3saBCYZrosE00X6O00D/kVMOAtdzrnitMn1O4XtiYWJL0PAmwHfqW6z1KKHJogzbHKbaLxHmgcivDGsXEgYYBmdLngAXOjJKvs3t4H6zu2JYnO65mxSGcVlBeOU+rvj/zw4EQCOlHCWAgyrAMe4wCEF/9UP2Oer6T09OBfmU/5uvDUfF3Fr5PPrjFew2dobC3i2+93Qnx/RKJvFeLVM0/M2nvM3841XozalZcuNkI658V7ss+e63tmuhCVBLUxw3jrAeZHb87l2q63juLVlOWdvW3muB7YmkMafP/8EAAD//w/ncYT0AwAA
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/4RSy27bMBC86yv2XqixG6AOBOQgWXIkOEptOA84N4peuawoUiGXclT04wsmFuA8gMxpMTOYnSXIOnGPxgqtImiGHo3S34U+66dBI9Qugrl0ltCstBR8CFoktmPEogBAsRYj6JkUO0YY9sKQYzK0aHrBMbAdcm+rGG/2RjsfRsZhAGCcROu1EFpG/LcfPZgaxjEEg1Y7w1+NI3ynN0QI9697N8e1nvyimbeM4pjVMiVqtHQSzojQkjYnVAhcO0URTE8qoCIj8F2rBoc3jEfnKin40ivwL3wnAoQeSXZV3MDqLrku5rDMti/kB2u5aA7ZYZsv9WPx989kHq+3xXFO4zVP1/s4S2Y8P5jyOsuv2sdz9zS5WJRdvaRhyvMPgfxhnm3OitI+dN9qPtvfUfIs45R12aS/vdjdbtIE8zquq59a/3qqns9XFf6Y5eWwvrz8/JDsJv3kjOOzC60WTEhnMOb08vVQ1dpwDP4HAAD///tn4OWPAgAA
+    cosign.sigstore.dev/signature: MEUCIGEVQYHaEBrV1M/zEeBC2c3dAgljR5gjXNCodzaCXGiYAiEAngXQc2iA3I8n0qtdgQHV1J4MxmyDmft0FfsWl8dLUno=
+  name: validate-virtual-service
+spec:
+  background: true
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - VirtualService
+    name: validate-virtual-service
+    validate:
+      manifests:
+        attestors:
+        - count: 1
+          entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEB7cHwrMLEHGmZ3uq08FMpfKty1cH
+                cWCES/IMsWp+fc7gUtBxlADapE0vT8dTSDBeHfAfb6ooOqbx3Pbe27HMyQ==
+                -----END PUBLIC KEY-----
+  validationFailureAction: enforce
