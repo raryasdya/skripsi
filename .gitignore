@@ -162,3 +162,7 @@ fabric.properties
 bin/
 
 .env
+
+# Public-Private Keypair
+*.key
+*.pub
