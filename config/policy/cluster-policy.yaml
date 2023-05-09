@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: validate-any-cluster-policy
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: validate-cluster-policy
+      match:
+        any:
+          - resources:
+              kinds:
+                - ClusterPolicy
+      validate:
+        manifests:
+          attestors:
+            - count: 1
+              entries:
+                - keys:
+                    publicKeys: |-
+                      -----BEGIN PUBLIC KEY-----
+                      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmnIn28vDRD2e/CvoU1YCNWCOQDB8
+                      2GbSGKIcMPEcRtWK1KDWgUv+CGjHobwugRzxaxIfH/3EKxXUWDsTrjm8gQ==
+                      -----END PUBLIC KEY-----
