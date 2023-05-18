@@ -20,6 +20,6 @@ spec:
                 - keys:
                     publicKeys: |-
                       -----BEGIN PUBLIC KEY-----
-                      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEB7cHwrMLEHGmZ3uq08FMpfKty1cH
-                      cWCES/IMsWp+fc7gUtBxlADapE0vT8dTSDBeHfAfb6ooOqbx3Pbe27HMyQ==
+                      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmnIn28vDRD2e/CvoU1YCNWCOQDB8
+                      2GbSGKIcMPEcRtWK1KDWgUv+CGjHobwugRzxaxIfH/3EKxXUWDsTrjm8gQ==
                       -----END PUBLIC KEY-----

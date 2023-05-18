@@ -6,7 +6,7 @@ spec:
   validationFailureAction: enforce
   background: true
   rules:
-    - name: validate-cluster-policy
+    - name: cluster-policy-only-can-be-modified-by-specific-public-key
       match:
         any:
           - resources:

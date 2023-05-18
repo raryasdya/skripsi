@@ -166,9 +166,9 @@ install-kyverno-manifest:
 apply-policy-cluster-policy:
 	kubectl apply -f config/policy/cluster-policy.yaml
 sign-vs-policy:
-	kubectl sigstore sign -f config/policy/virtual-service.yaml -k cosign.key -o  config/policy/virtual-service-signed.yaml
+	kubectl sigstore sign -f config/policy/virtual-service.yaml -k cosign.key -o  config/policy/virtual-service.signed.yaml
 apply-signed-vs-policy:
-	kubectl apply -f config/policy/virtual-service-signed.yaml
+	kubectl apply -f config/policy/virtual-service.signed.yaml
 
 apply-policies-all: apply-policy-cluster-policy sign-vs-policy apply-signed-vs-policy
 
