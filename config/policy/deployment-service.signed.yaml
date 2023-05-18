@@ -1,0 +1,46 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  annotations:
+    cosign.sigstore.dev/bundle: H4sIAAAAAAAA/0STS4+rOBOG/wvrlj7MJR1a+hZNAgQCSTB2OfbO4CTck8mluRyd/z7KnJFm+5SqVPWo3l9aVl36k/L6530iVXd6PGV30760xOOrMF21i8t6SOcD23xPPrr8RNGiiU9n9wZzhH42lnM473F82MZ2GpbfsZSveP1iBPP4gPq7aixXOex/Cwa1nrUX1/oei+n5GfdL7UM7yKm9SqV9/dLyq5q0L+00RWURtEwco1ky5xXW1ypZWUNce1W8iu6S2c2bycCfZQBN0cE9N6MmrIaqMN2WT+HiNEUNP+IyrG+fYVeWhXGp9v2j4mzsczO6qaB8vmcURlkmNTXevarzH4rRal+FRmL4tagv4z6Aak8u5s4QbTIXNmfhzOvC4uR7FLWoBaNWMqcTr/1GrDniHR0ECZGo0zGZodwH3OazZyZrtwp75MSr903qxY8YFR39s5PhvFQAL7UKF2GDfKC7iNJdJdfKpf3NFq1bZYZdZR4Kt2ZUpojrQHclptEVG7bOu2RIm6d16t07P5Z9xpQgwQ5t9dJQa3dMa3UvKBZ0cjzWpT+yQz6mzwD3/kia3UMFJZYIYzhy65CFj7B3Ee/GG9ef7Sn7x2WdG7YumK2/nRE/GZQ3koTuMmB4C0G7oiAgaxABino6u4w1I0k2OKGzG4MPsujSAerdEViZ8Nofsg6eualw4okMEDxIEI6Fd2tz5pi0gYC2zUDbSCaeCHhboKyL/soIbiSKCG3wNveGgdRRlQBYgGBPEB9I6wJAtCa6/3OCcMpanCUbvGXke6QQHUm7a3CHEwKgY+CT8EUjj9ijdTRkLJyyeteAgYlg9lUG4OcBIulcLmgL+s5XAbRllnk2cAMNynM2wo9SWLvxfz4ElcjvgQqWIuznHo7wEQeA/q1v8FrMuvP+g/NR/7/2oVX983S5y+dJvVOnfaHF0jKdpblYfmjt9RL26jRqX4bu2KZpWX/YWvvSCl0ZplpIZekL59M8O7btnM1cGgoVUkfnpYWsT7U8nws7X1qWXRiGdXaWuWM7aKkjpf3+/XcAAAD//3mQnmD0AwAA
+    cosign.sigstore.dev/message: H4sIAAAAAAAA/+xUTY/aMBC951fMvXIp9IIi7QHiLETpUsKWUnozzpCaJDbyRyCr/vjKlFTZXXqr1Mu+0+i90ZuZvMjsKL6iNkLJEMq2QS3Ve6EGzTAohcxDiCpnLOqlqgRvgxoty5llYQAgWY0hNKwSObNIcjxWqq1RWsJkTgzqRnAMzBG5794xXhZaOe9ptcMAQLsKjdcI1MzyH770YLLtSgIajXKa/27s4Fd7RhCgf8Zf6L8ud1E7vrOomRR7NLbnyaxFY5XuUQS4ctKGMOxNRmm1wBfLlNg+YzyOblcJnnoFfpIXIgDxmMazZAHL9fRTEkEaby/kq9aH+/IUn7bzVH1Png4fokm2Ta41nWScZsUkrmUiR+OGrugIB1Gj1sNttNhEnzM6Hb8yHM12j7M04Q/LmK/sJh2mdFOsm3fR7DBXu5MrVk9ndk7288HHOD1/W2+o+aIP9bjI7u5uHxIv6I0z/kXOj9f/6kbIpie9JfxfEr5+dqHkPROV0zjh9vK0oNwrzTH4FQAA//9B+/FRbwQAAA==
+    cosign.sigstore.dev/signature: MEUCIQCbh7ARzyfPbKnbHMH+raCV4UCaEBhGntbc0BKxzpkaxgIgYLcu+Hvt0qB7kqDYS/DZd/jmEEKFFqqNClthQkTQUv8=
+  name: validate-deployment-and-service
+spec:
+  background: true
+  rules:
+  - match:
+      any:
+      - resources:
+          kinds:
+          - Deployment
+    name: validate-deployment
+    validate:
+      manifests:
+        attestors:
+        - count: 1
+          entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmnIn28vDRD2e/CvoU1YCNWCOQDB8
+                2GbSGKIcMPEcRtWK1KDWgUv+CGjHobwugRzxaxIfH/3EKxXUWDsTrjm8gQ==
+                -----END PUBLIC KEY-----
+  - match:
+      any:
+      - resources:
+          kinds:
+          - Service
+    name: validate-service
+    validate:
+      manifests:
+        attestors:
+        - count: 1
+          entries:
+          - keys:
+              publicKeys: |-
+                -----BEGIN PUBLIC KEY-----
+                MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmnIn28vDRD2e/CvoU1YCNWCOQDB8
+                2GbSGKIcMPEcRtWK1KDWgUv+CGjHobwugRzxaxIfH/3EKxXUWDsTrjm8gQ==
+                -----END PUBLIC KEY-----
+  validationFailureAction: enforce
