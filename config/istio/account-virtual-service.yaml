@@ -1,14 +1,14 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: account-route
 spec:
   http:
-  - match:
-    - uri:
-        exact: /account
-    route:
-    - destination:
-        host: account-service
-        port:
-          number: 8081
+    - match:
+        - uri:
+            exact: /account
+      route:
+        - destination:
+            host: account-service
+            port:
+              number: 8081
