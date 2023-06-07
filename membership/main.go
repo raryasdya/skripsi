@@ -53,12 +53,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		mem := MembershipResponse{
-			Name:   "ERROR",
-			Status: "ERROR",
-			Source: "membership-service",
-		}
-		json.NewEncoder(w).Encode(mem)
+		json.NewEncoder(w).Encode(Error{
+			Error: err.Error(),
+		})
 		return
 	}
 

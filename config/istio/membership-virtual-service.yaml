@@ -1,18 +1,18 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: membership-route
 spec:
   hosts:
-  - "skripsi.lakik.software"
+    - 'skripsi.lakik.software'
   gateways:
-  - gateway
+    - gateway
   http:
-  - match:
-    - uri:
-        exact: /
-    route:
-    - destination:
-        host: membership-service
-        port:
-          number: 8080
+    - match:
+        - uri:
+            exact: /
+      route:
+        - destination:
+            host: membership-service
+            port:
+              number: 8080
