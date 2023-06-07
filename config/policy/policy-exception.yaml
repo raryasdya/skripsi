@@ -1,0 +1,25 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: policy-4
+spec:
+  validationFailureAction: enforce
+  background: true
+  rules:
+    - name: restrict-policy-exception-by-public-key
+      match:
+        any:
+          - resources:
+              kinds:
+                - PolicyException
+      validate:
+        manifests:
+          attestors:
+            - count: 1
+              entries:
+                - keys:
+                    publicKeys: |-
+                      -----BEGIN PUBLIC KEY-----
+                      MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEmnIn28vDRD2e/CvoU1YCNWCOQDB8
+                      2GbSGKIcMPEcRtWK1KDWgUv+CGjHobwugRzxaxIfH/3EKxXUWDsTrjm8gQ==
+                      -----END PUBLIC KEY-----
