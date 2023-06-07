@@ -1,18 +1,18 @@
-apiVersion: networking.istio.io/v1alpha3
+apiVersion: networking.istio.io/v1beta1
 kind: VirtualService
 metadata:
   name: rogue-route
 spec:
   hosts:
-  - "skripsi.lakik.software"
+    - 'skripsi.lakik.software'
   gateways:
-  - gateway
+    - gateway
   http:
-  - match:
-    - uri:
-        exact: /rogue
-    route:
-    - destination:
-        host: rogue-service
-        port:
-          number: 8082
+    - match:
+        - uri:
+            exact: /rogue
+      route:
+        - destination:
+            host: rogue-service
+            port:
+              number: 8082
