@@ -1,7 +1,7 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: validate-virtual-service
+  name: policy-1
 spec:
   validationFailureAction: enforce
   background: true

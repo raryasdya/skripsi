@@ -1,12 +1,12 @@
 apiVersion: kyverno.io/v1
 kind: ClusterPolicy
 metadata:
-  name: validate-any-cluster-policy
+  name: policy-3
 spec:
   validationFailureAction: enforce
   background: true
   rules:
-    - name: cluster-policy-only-can-be-modified-by-specific-public-key
+    - name: restrict-cluster-policy-by-public-key
       match:
         any:
           - resources:
