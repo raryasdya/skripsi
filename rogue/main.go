@@ -53,12 +53,9 @@ func handler(w http.ResponseWriter, r *http.Request) {
 
 	resp, err := client.Do(req)
 	if err != nil {
-		rog := RogueResponse{
-			Name:   "ERROR",
-			Status: "ERROR",
-			Source: "rogue-service",
-		}
-		json.NewEncoder(w).Encode(rog)
+		json.NewEncoder(w).Encode(Error{
+			Error: err.Error(),
+		})
 		return
 	}
 
