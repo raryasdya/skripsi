@@ -115,7 +115,7 @@ deploy-rogue-vs:
 
 # Kyverno Installation
 install-kyverno-from-manifest:
-	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.8.5/install.yaml
+	kubectl create -f https://github.com/kyverno/kyverno/releases/download/v1.10.0/install.yaml
 
 
 
